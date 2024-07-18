@@ -1,0 +1,133 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+}
+
+p {
+    text-align: center;
+}
+.center-align {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 400px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* フォームのスタイル */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="datetime-local"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button[type="submit"] {
+    padding: 10px 15px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button[type="submit"]:hover {
+    background: #0056b3;
+}
+
+/* リンクのスタイル */
+div a {
+    color: #007bff;
+    text-decoration: none;
+    text-align: center;
+    margin: 0 10px;
+}
+
+div a:hover {
+    text-decoration: underline;
+}
+
+/* タスクのスタイル */
+.text {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.text h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.text ul {
+    padding-left: 20px;
+}
+
+.text li {
+    margin-bottom: 10px;
+    list-style-type: disc;
+}
+
+.text a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.text a:hover {
+    text-decoration: underline;
+}
+
+
+/*detailのcss*/
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 600px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
