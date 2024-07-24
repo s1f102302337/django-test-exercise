@@ -6,6 +6,7 @@
     <title>To Do Application</title>
     <meta charset="UTF-8">
     <meta name="author" content="INIAD">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo/css/base.css' %}">
 </head>
 
 <body>
@@ -27,7 +28,7 @@
     </form>
     <br>
 
-    <div>
+    <div class="center-align">
         <a href="{% url 'index' %}?order=due">Sort by Due Date</a> |
         <a href="{% url 'index' %}?order=post">Sort by Posted Date</a>
     </div>
