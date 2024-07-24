@@ -2,6 +2,8 @@ from django.test import TestCase, Client
 from django.utils import timezone
 from datetime import datetime
 from todo.models import Task
+from django.utils.timezone import make_aware
+from django.urls import reverse
 
 
 # Create your tests here.
@@ -122,4 +124,72 @@ class TodoViewTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name, 'todo/detail.html')
+        self.assertEqual(response.context['task'], task)
+
+    def setUp(self):
+        self.client = Client()
+        self.task = Task.objects.create(
+            title="Sample Task",
+            due_at=make_aware(datetime.now())
+        )
+
+    def test_update(self):
+        new_title = "Updated Task"
+        new_due_at = make_aware(datetime(2023, 12, 31, 23, 59))
+
+        response = self.client.post(
+            reverse('update', args=[self.task.id]),
+            data={
+                'title': new_title,
+                'due_at': new_due_at.isoformat(),
+            }
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('detail', args=[self.task.id]))
+
+        self.task.refresh_from_db()
+        self.assertEqual(self.task.title, new_title)
+        self.assertEqual(self.task.due_at, new_due_at)
+
+class TodoViewTestCase(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.url_index = reverse('index')
+        self.url_detail = reverse('detail', args=[1])  
+
+    def test_index_get(self):
+        response = self.client.get(self.url_index)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['tasks']), 0)
+
+    def test_index_post(self):
+        response = self.client.post(self.url_index, {
+            'title': 'New Task',
+            'due_at': '2023-12-31T23:59:00',
+        })
+        self.assertEqual(response.status_code, 200)
+        tasks = Task.objects.all()
+        self.assertEqual(len(tasks), 1)
+        self.assertEqual(tasks[0].title, 'New Task')
+
+    def test_index_get_order_due(self):
+        task1 = Task.objects.create(title='Task 1', due_at=make_aware(datetime(2023, 12, 30, 23, 59)))
+        task2 = Task.objects.create(title='Task 2', due_at=make_aware(datetime(2023, 12, 31, 23, 59)))
+        
+        response = self.client.get(self.url_index + '?order=due')
+        self.assertEqual(response.status_code, 200)
+        tasks = response.context['tasks']
+        self.assertEqual(tasks[0], task1)
+        self.assertEqual(tasks[1], task2)
+
+    def test_detail_get_fail(self):
+        response = self.client.get(reverse('detail', args=[999])) 
+        self.assertEqual(response.status_code, 404)
+
+    def test_detail_get_success(self):
+        task = Task.objects.create(title='Task Success', due_at=make_aware(datetime.now()))
+        response = self.client.get(reverse('detail', args=[task.id]))
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['task'], task)
